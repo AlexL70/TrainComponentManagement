@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.6.33801.468
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "vueapp", "vueapp\vueapp.esproj", "{48980648-46EA-4166-AE76-939EC25AE310}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D4CC443A-7246-4A1E-8E51-C33391914D36} = {D4CC443A-7246-4A1E-8E51-C33391914D36}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "webapi", "webapi\webapi.csproj", "{D4CC443A-7246-4A1E-8E51-C33391914D36}"
 EndProject
@@ -15,7 +18,6 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{48980648-46EA-4166-AE76-939EC25AE310}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{48980648-46EA-4166-AE76-939EC25AE310}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{48980648-46EA-4166-AE76-939EC25AE310}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{48980648-46EA-4166-AE76-939EC25AE310}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48980648-46EA-4166-AE76-939EC25AE310}.Release|Any CPU.Build.0 = Release|Any CPU
 		{48980648-46EA-4166-AE76-939EC25AE310}.Release|Any CPU.Deploy.0 = Release|Any CPU
