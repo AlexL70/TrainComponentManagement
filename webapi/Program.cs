@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using webapi.Infrastructure.Database;
 
 var builder = WebApplication.CreateBuilder(args);
