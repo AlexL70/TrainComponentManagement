@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using webapi.Infrastructure.Database.Models;
 
 namespace webapi.Infrastructure.Database
@@ -8,7 +9,13 @@ namespace webapi.Infrastructure.Database
         public TrainComponentsDbContext(DbContextOptions<TrainComponentsDbContext> options) : base(options) { }
 
         #region DbSets
-        public DbSet<TrainComponentType>  TrainComponentTypes { get; set; }
+        public DbSet<TrainComponentType>?  TrainComponentTypes { get; set; }
+        public DbSet<TrainComponentBrand>? TrainComponentBrands { get; set; }
+        public DbSet<TrainModel>? TrainModels { get; set; }
+        public DbSet<TrainModelElement>? TrainModelElements { get; set; }
+        public DbSet<InventoryPart>? Inventory { get; set; }
+        public DbSet<Train>? Trains { get; set; }
+        public DbSet<TrainComponent>? TrainElements { get; set; }
         #endregion
 
 #if DEBUG
@@ -33,6 +40,24 @@ namespace webapi.Infrastructure.Database
         {
             modelBuilder.Entity<TrainComponentType>()
                 .HasIndex(_ => _.Name).IsUnique();
+            modelBuilder.Entity<TrainComponentBrand>()
+                .HasIndex(_ => _.Name).IsUnique();
+            modelBuilder.Entity<TrainComponentBrand>()
+                .HasIndex(_ => _.TypeId);
+            modelBuilder.Entity<InventoryPart>()
+                .HasAlternateKey(_ => _.SerialNumber);
+            modelBuilder.Entity<TrainModel>()
+                .HasIndex(_ => _.Name).IsUnique();
+            modelBuilder.Entity<TrainModelElement>()
+                .HasIndex(_ => _.ModelId);
+            modelBuilder.Entity<TrainModelElement>()
+                .HasIndex(_ => _.ParentId);
+            modelBuilder.Entity<TrainModelElement>()
+                .HasIndex(_ => _.BrandId);
+            //  Inventory Element (physical part) cannot be used in train(s) more than once
+            //  i.e. there could not be more than one train component per inventory part
+            modelBuilder.Entity<TrainComponent>()
+                .HasIndex(_ => _.InventoryId).IsUnique();
         }
     }
 }
