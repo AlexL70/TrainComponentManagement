@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using webapi.Infrastructure.Database.Models;
+using webapi.Infrastructure.Database.Seeding;
 
 namespace webapi.Infrastructure.Database
 {
@@ -33,15 +34,21 @@ namespace webapi.Infrastructure.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.UseIdentityAlwaysColumns();
             SetupEntities(modelBuilder);
+            Seed(modelBuilder);
         }
 
         private void SetupEntities(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<TrainComponentType>()
                 .HasIndex(_ => _.Name).IsUnique();
+            modelBuilder.Entity<TrainComponentType>()
+                .Property(_ => _.Id).HasIdentityOptions(startValue: 501);
             modelBuilder.Entity<TrainComponentBrand>()
                 .HasIndex(_ => _.Name).IsUnique();
+            modelBuilder.Entity<TrainComponentType>()
+                .Property(_ => _.Id).HasIdentityOptions(startValue: 1001);
             modelBuilder.Entity<TrainComponentBrand>()
                 .HasIndex(_ => _.TypeId);
             modelBuilder.Entity<InventoryPart>()
@@ -58,6 +65,11 @@ namespace webapi.Infrastructure.Database
             //  i.e. there could not be more than one train component per inventory part
             modelBuilder.Entity<TrainComponent>()
                 .HasIndex(_ => _.InventoryId).IsUnique();
+        }
+
+        private void Seed(ModelBuilder modelBuilder) {
+            modelBuilder.Entity<TrainComponentType>()
+                .HasData(SeedingData.componentTypes);
         }
     }
 }
