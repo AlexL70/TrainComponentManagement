@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using webapi.Infrastructure.Database.Models;
 using webapi.Infrastructure.Database.Seeding;
 
@@ -45,6 +44,13 @@ namespace webapi.Infrastructure.Database
                 .HasIndex(_ => _.Name).IsUnique();
             modelBuilder.Entity<TrainComponentType>()
                 .Property(_ => _.Id).HasIdentityOptions(startValue: 501);
+            modelBuilder.Entity<TrainComponentTypeRelation>()
+                .HasKey(_ => new { _.ParentTypeId, _.ChildTypeId });
+            //modelBuilder.Entity<TrainComponentType>()
+            //    .HasMany(_ => _.CanHaveParents)
+            //    .WithMany(_ => _.CanHaveChildren)
+            //    .UsingEntity($"{nameof(TrainComponentTypeRelation)}s",typeof(TrainComponentTypeRelation),
+            //        lb => lb.HasMany(nameof(TrainComponentTypeRelation), nameof(TrainComponentTypeRelation.ParentTypeId)));
             modelBuilder.Entity<TrainComponentBrand>()
                 .HasIndex(_ => _.Name).IsUnique();
             modelBuilder.Entity<TrainComponentType>()
@@ -70,6 +76,8 @@ namespace webapi.Infrastructure.Database
         private void Seed(ModelBuilder modelBuilder) {
             modelBuilder.Entity<TrainComponentType>()
                 .HasData(SeedingData.componentTypes);
+            modelBuilder.Entity<TrainComponentTypeRelation>()
+                .HasData(SeedingData.relations);
         }
     }
 }
