@@ -46,11 +46,16 @@ namespace webapi.Infrastructure.Database
                 .Property(_ => _.Id).HasIdentityOptions(startValue: 501);
             modelBuilder.Entity<TrainComponentTypeRelation>()
                 .HasKey(_ => new { _.ParentTypeId, _.ChildTypeId });
-            //modelBuilder.Entity<TrainComponentType>()
-            //    .HasMany(_ => _.CanHaveParents)
-            //    .WithMany(_ => _.CanHaveChildren)
-            //    .UsingEntity($"{nameof(TrainComponentTypeRelation)}s",typeof(TrainComponentTypeRelation),
-            //        lb => lb.HasMany(nameof(TrainComponentTypeRelation), nameof(TrainComponentTypeRelation.ParentTypeId)));
+            modelBuilder.Entity<TrainComponentTypeRelation>()
+                .HasOne(_ => _.ParentType)
+                .WithMany(_ => _.CanHaveChildren)
+                .HasForeignKey(_ => _.ParentTypeId)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<TrainComponentTypeRelation>()
+                .HasOne(_ => _.ChildType)
+                .WithMany(_ => _.CanHaveParents)
+                .HasForeignKey(_ => _.ChildTypeId)
+                .OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<TrainComponentBrand>()
                 .HasIndex(_ => _.Name).IsUnique();
             modelBuilder.Entity<TrainComponentType>()

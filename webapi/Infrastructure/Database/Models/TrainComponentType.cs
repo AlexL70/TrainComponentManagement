@@ -7,7 +7,7 @@
         public bool IsRoot { get; set; }
         public bool CanAssignQuantity { get; set; }
         public virtual ICollection<TrainComponentBrand> BrandsAvailable { get; set; } = new List<TrainComponentBrand>();
-        public virtual ICollection<TrainComponentType> CanHaveParents { get; set; } = new List<TrainComponentType>();
-        public virtual ICollection<TrainComponentType> CanHaveChildren { get; set; } = new List<TrainComponentType>();
+        public virtual ICollection<TrainComponentTypeRelation> CanHaveParents { get; set; } = new List<TrainComponentTypeRelation>();
+        public virtual ICollection<TrainComponentTypeRelation> CanHaveChildren { get; set; } = new List<TrainComponentTypeRelation>();
     }
 }

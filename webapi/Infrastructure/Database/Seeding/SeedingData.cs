@@ -135,6 +135,7 @@ namespace webapi.Infrastructure.Database.Seeding
                 });
                 // Fill in possible parent/child relations between component types
                 var relList = new List<TrainComponentTypeRelation>();
+                componentTypes = tct.ToArray();
                 foreach (var rel in tctRelations)
                 {
                     relList.Add(new TrainComponentTypeRelation {
@@ -142,7 +143,7 @@ namespace webapi.Infrastructure.Database.Seeding
                         ChildTypeId = (int)rel.child,
                     });
                 }
-                componentTypes = tct.ToArray();
+                relations = relList.ToArray();
             }
         }
     }
