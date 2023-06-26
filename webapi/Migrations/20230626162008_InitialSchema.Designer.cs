@@ -12,7 +12,7 @@ using webapi.Infrastructure.Database;
 namespace webapi.Migrations
 {
     [DbContext(typeof(TrainComponentsDbContext))]
-    [Migration("20230626131548_InitialSchema")]
+    [Migration("20230626162008_InitialSchema")]
     partial class InitialSchema
     {
         /// <inheritdoc />
@@ -127,12 +127,399 @@ namespace webapi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name")
-                        .IsUnique();
-
                     b.HasIndex("TypeId");
 
+                    b.HasIndex("TypeId", "Name")
+                        .IsUnique();
+
                     b.ToTable("TrainComponentBrands");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Train",
+                            TypeId = 1,
+                            UniqueNumMask = "TR******"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Alan Keef",
+                            TypeId = 2,
+                            UniqueNumMask = "ENGAK******"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Bombardier Transportation",
+                            TypeId = 2,
+                            UniqueNumMask = "ENGBT******"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Clayton Equipment Company",
+                            TypeId = 2,
+                            UniqueNumMask = "ENGCEC******"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "CAF Newport",
+                            TypeId = 3,
+                            UniqueNumMask = "PCARCAF******"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Dick, Kerr & Co",
+                            TypeId = 3,
+                            UniqueNumMask = "PCARDKC******"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Dick, Kerr & Co",
+                            TypeId = 4,
+                            UniqueNumMask = "FCARDKC******"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "Swindon Works",
+                            TypeId = 4,
+                            UniqueNumMask = "FCARSW******"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "Leonard Machine Tool Systems",
+                            TypeId = 5,
+                            UniqueNumMask = "WLLMTS******"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Name = "Stucki Industrial",
+                            TypeId = 5,
+                            UniqueNumMask = "WLSI******"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Name = "GRAMMER AG",
+                            TypeId = 6,
+                            UniqueNumMask = "SEATGRAM******"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Name = "Magna International, Inc.",
+                            TypeId = 6,
+                            UniqueNumMask = "SEATMII******"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Name = "Freedman Seating Company",
+                            TypeId = 6,
+                            UniqueNumMask = "SEATFSC******"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Name = "ProCurve Glass",
+                            TypeId = 7,
+                            UniqueNumMask = "WNDPCG******"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Name = "Dellner Romag Ltd",
+                            TypeId = 7,
+                            UniqueNumMask = "WNDDRL******"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Name = "Train Door Solutions",
+                            TypeId = 8,
+                            UniqueNumMask = "DOORTDS******"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Name = "Railway Technology",
+                            TypeId = 8,
+                            UniqueNumMask = "DOORRT******"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Name = "Adbro Controls",
+                            TypeId = 9,
+                            UniqueNumMask = "CPLAC******"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Name = "Sella Controls",
+                            TypeId = 9,
+                            UniqueNumMask = "CPLSC******"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Name = "Imigy Led",
+                            TypeId = 10,
+                            UniqueNumMask = "LGHTIL******"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Name = "Wildlife Friendly Lighting",
+                            TypeId = 10,
+                            UniqueNumMask = "LGHTWFL******"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Name = "Knorr-Bremse Group",
+                            TypeId = 11,
+                            UniqueNumMask = "BRKKBG******"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Name = "Railway Weelset & Break LTD",
+                            TypeId = 11,
+                            UniqueNumMask = "BRKRWB******"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Name = "Bolt & Nut Manufacturing Ltd",
+                            TypeId = 12,
+                            UniqueNumMask = "BLTBNM******"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            Name = "RCF Bolt & Nut Co.",
+                            TypeId = 12,
+                            UniqueNumMask = "BLTRCFBNC******"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            Name = "Bolt & Nut Manufacturing Ltd",
+                            TypeId = 13,
+                            UniqueNumMask = "NUTBNM******"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            Name = "RCF Bolt & Nut Co.",
+                            TypeId = 13,
+                            UniqueNumMask = "NUTRCFBNC******"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            Name = "John Deere UK & IE",
+                            TypeId = 14,
+                            UniqueNumMask = "EHDJDUK******"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            Name = "Rapido Trains INC",
+                            TypeId = 14,
+                            UniqueNumMask = "EHDRTI******"
+                        },
+                        new
+                        {
+                            Id = 30,
+                            Name = "Lucchini UK",
+                            TypeId = 15,
+                            UniqueNumMask = "AXLLCI******"
+                        },
+                        new
+                        {
+                            Id = 31,
+                            Name = "Railway Wheelset and Brake Ltd",
+                            TypeId = 15,
+                            UniqueNumMask = "AXLRWBL******"
+                        },
+                        new
+                        {
+                            Id = 32,
+                            Name = "HP Rings",
+                            TypeId = 16,
+                            UniqueNumMask = "PSTHPR******"
+                        },
+                        new
+                        {
+                            Id = 33,
+                            Name = "The Handrail People Ltd",
+                            TypeId = 17,
+                            UniqueNumMask = "HRLTHP******"
+                        },
+                        new
+                        {
+                            Id = 34,
+                            Name = "Lyte Ladders & Towers",
+                            TypeId = 18,
+                            UniqueNumMask = "STPLLT******"
+                        },
+                        new
+                        {
+                            Id = 35,
+                            Name = "Rapid Ramp",
+                            TypeId = 18,
+                            UniqueNumMask = "STPRR******"
+                        },
+                        new
+                        {
+                            Id = 36,
+                            Name = "Dick, Kerr & Co",
+                            TypeId = 19,
+                            UniqueNumMask = "ROOFDKC******"
+                        },
+                        new
+                        {
+                            Id = 37,
+                            Name = "Swindon Works",
+                            TypeId = 19,
+                            UniqueNumMask = "ROOFSW******"
+                        },
+                        new
+                        {
+                            Id = 38,
+                            Name = "Trane",
+                            TypeId = 20,
+                            UniqueNumMask = "ACNDTRN******"
+                        },
+                        new
+                        {
+                            Id = 39,
+                            Name = "Dick, Kerr & Co",
+                            TypeId = 21,
+                            UniqueNumMask = "FLRDKC******"
+                        },
+                        new
+                        {
+                            Id = 40,
+                            Name = "Mirrorfit UK",
+                            TypeId = 22,
+                            UniqueNumMask = "MRRMFUK******"
+                        },
+                        new
+                        {
+                            Id = 41,
+                            Name = "Mimtec Limited",
+                            TypeId = 22,
+                            UniqueNumMask = "MRRMTL******"
+                        },
+                        new
+                        {
+                            Id = 42,
+                            Name = "Trent Instruments LTD",
+                            TypeId = 23,
+                            UniqueNumMask = "HRNTI******"
+                        },
+                        new
+                        {
+                            Id = 43,
+                            Name = "Kuda Automotive",
+                            TypeId = 23,
+                            UniqueNumMask = "HRNKA******"
+                        },
+                        new
+                        {
+                            Id = 44,
+                            Name = "Knorr-Bremse",
+                            TypeId = 24,
+                            UniqueNumMask = "CPLKB******"
+                        },
+                        new
+                        {
+                            Id = 45,
+                            Name = "Dellner Limited",
+                            TypeId = 24,
+                            UniqueNumMask = "CPLDL******"
+                        },
+                        new
+                        {
+                            Id = 46,
+                            Name = "Prokraft",
+                            TypeId = 25,
+                            UniqueNumMask = "HNGPKFT******"
+                        },
+                        new
+                        {
+                            Id = 47,
+                            Name = "Chase Ladders",
+                            TypeId = 26,
+                            UniqueNumMask = "LDRCHLD******"
+                        },
+                        new
+                        {
+                            Id = 48,
+                            Name = "Bratts Ladders",
+                            TypeId = 26,
+                            UniqueNumMask = "LDRBRLD******"
+                        },
+                        new
+                        {
+                            Id = 49,
+                            Name = "Unitech Machinery",
+                            TypeId = 27,
+                            UniqueNumMask = "PNTUM******"
+                        },
+                        new
+                        {
+                            Id = 50,
+                            Name = "Decals & Transfers",
+                            TypeId = 28,
+                            UniqueNumMask = "DCLDT******"
+                        },
+                        new
+                        {
+                            Id = 51,
+                            Name = "Trent Instruments LTD",
+                            TypeId = 29,
+                            UniqueNumMask = "GGTI******"
+                        },
+                        new
+                        {
+                            Id = 52,
+                            Name = "Railway Weelset & Break LTD",
+                            TypeId = 29,
+                            UniqueNumMask = "GGRWBL******"
+                        },
+                        new
+                        {
+                            Id = 53,
+                            Name = "Hitachi Rail",
+                            TypeId = 30,
+                            UniqueNumMask = "BTRHR******"
+                        },
+                        new
+                        {
+                            Id = 54,
+                            Name = "Alstom",
+                            TypeId = 30,
+                            UniqueNumMask = "BTRALST******"
+                        },
+                        new
+                        {
+                            Id = 55,
+                            Name = "Myson",
+                            TypeId = 31,
+                            UniqueNumMask = "RDRMSN******"
+                        });
                 });
 
             modelBuilder.Entity("webapi.Infrastructure.Database.Models.TrainComponentType", b =>

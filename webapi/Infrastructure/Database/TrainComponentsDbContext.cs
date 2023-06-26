@@ -57,7 +57,7 @@ namespace webapi.Infrastructure.Database
                 .HasForeignKey(_ => _.ChildTypeId)
                 .OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<TrainComponentBrand>()
-                .HasIndex(_ => _.Name).IsUnique();
+                .HasIndex(_ => new { _.TypeId, _.Name }).IsUnique();
             modelBuilder.Entity<TrainComponentType>()
                 .Property(_ => _.Id).HasIdentityOptions(startValue: 1001);
             modelBuilder.Entity<TrainComponentBrand>()
@@ -81,6 +81,8 @@ namespace webapi.Infrastructure.Database
         private void Seed(ModelBuilder modelBuilder) {
             modelBuilder.Entity<TrainComponentType>()
                 .HasData(SeedingData.componentTypes);
+            modelBuilder.Entity<TrainComponentBrand>()
+                .HasData(SeedingData.brands);
             modelBuilder.Entity<TrainComponentTypeRelation>()
                 .HasData(SeedingData.relations);
         }

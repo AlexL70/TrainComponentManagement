@@ -235,6 +235,68 @@ namespace webapi.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "TrainComponentBrands",
+                columns: new[] { "Id", "Name", "TypeId", "UniqueNumMask" },
+                values: new object[,]
+                {
+                    { 1, "Train", 1, "TR******" },
+                    { 2, "Alan Keef", 2, "ENGAK******" },
+                    { 3, "Bombardier Transportation", 2, "ENGBT******" },
+                    { 4, "Clayton Equipment Company", 2, "ENGCEC******" },
+                    { 5, "CAF Newport", 3, "PCARCAF******" },
+                    { 6, "Dick, Kerr & Co", 3, "PCARDKC******" },
+                    { 7, "Dick, Kerr & Co", 4, "FCARDKC******" },
+                    { 8, "Swindon Works", 4, "FCARSW******" },
+                    { 9, "Leonard Machine Tool Systems", 5, "WLLMTS******" },
+                    { 10, "Stucki Industrial", 5, "WLSI******" },
+                    { 11, "GRAMMER AG", 6, "SEATGRAM******" },
+                    { 12, "Magna International, Inc.", 6, "SEATMII******" },
+                    { 13, "Freedman Seating Company", 6, "SEATFSC******" },
+                    { 14, "ProCurve Glass", 7, "WNDPCG******" },
+                    { 15, "Dellner Romag Ltd", 7, "WNDDRL******" },
+                    { 16, "Train Door Solutions", 8, "DOORTDS******" },
+                    { 17, "Railway Technology", 8, "DOORRT******" },
+                    { 18, "Adbro Controls", 9, "CPLAC******" },
+                    { 19, "Sella Controls", 9, "CPLSC******" },
+                    { 20, "Imigy Led", 10, "LGHTIL******" },
+                    { 21, "Wildlife Friendly Lighting", 10, "LGHTWFL******" },
+                    { 22, "Knorr-Bremse Group", 11, "BRKKBG******" },
+                    { 23, "Railway Weelset & Break LTD", 11, "BRKRWB******" },
+                    { 24, "Bolt & Nut Manufacturing Ltd", 12, "BLTBNM******" },
+                    { 25, "RCF Bolt & Nut Co.", 12, "BLTRCFBNC******" },
+                    { 26, "Bolt & Nut Manufacturing Ltd", 13, "NUTBNM******" },
+                    { 27, "RCF Bolt & Nut Co.", 13, "NUTRCFBNC******" },
+                    { 28, "John Deere UK & IE", 14, "EHDJDUK******" },
+                    { 29, "Rapido Trains INC", 14, "EHDRTI******" },
+                    { 30, "Lucchini UK", 15, "AXLLCI******" },
+                    { 31, "Railway Wheelset and Brake Ltd", 15, "AXLRWBL******" },
+                    { 32, "HP Rings", 16, "PSTHPR******" },
+                    { 33, "The Handrail People Ltd", 17, "HRLTHP******" },
+                    { 34, "Lyte Ladders & Towers", 18, "STPLLT******" },
+                    { 35, "Rapid Ramp", 18, "STPRR******" },
+                    { 36, "Dick, Kerr & Co", 19, "ROOFDKC******" },
+                    { 37, "Swindon Works", 19, "ROOFSW******" },
+                    { 38, "Trane", 20, "ACNDTRN******" },
+                    { 39, "Dick, Kerr & Co", 21, "FLRDKC******" },
+                    { 40, "Mirrorfit UK", 22, "MRRMFUK******" },
+                    { 41, "Mimtec Limited", 22, "MRRMTL******" },
+                    { 42, "Trent Instruments LTD", 23, "HRNTI******" },
+                    { 43, "Kuda Automotive", 23, "HRNKA******" },
+                    { 44, "Knorr-Bremse", 24, "CPLKB******" },
+                    { 45, "Dellner Limited", 24, "CPLDL******" },
+                    { 46, "Prokraft", 25, "HNGPKFT******" },
+                    { 47, "Chase Ladders", 26, "LDRCHLD******" },
+                    { 48, "Bratts Ladders", 26, "LDRBRLD******" },
+                    { 49, "Unitech Machinery", 27, "PNTUM******" },
+                    { 50, "Decals & Transfers", 28, "DCLDT******" },
+                    { 51, "Trent Instruments LTD", 29, "GGTI******" },
+                    { 52, "Railway Weelset & Break LTD", 29, "GGRWBL******" },
+                    { 53, "Hitachi Rail", 30, "BTRHR******" },
+                    { 54, "Alstom", 30, "BTRALST******" },
+                    { 55, "Myson", 31, "RDRMSN******" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "TrainComponentTypeRelation",
                 columns: new[] { "ChildTypeId", "ParentTypeId" },
                 values: new object[,]
@@ -303,15 +365,15 @@ namespace webapi.Migrations
                 column: "BrandId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TrainComponentBrands_Name",
-                table: "TrainComponentBrands",
-                column: "Name",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_TrainComponentBrands_TypeId",
                 table: "TrainComponentBrands",
                 column: "TypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TrainComponentBrands_TypeId_Name",
+                table: "TrainComponentBrands",
+                columns: new[] { "TypeId", "Name" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_TrainComponentTypeRelation_ChildTypeId",

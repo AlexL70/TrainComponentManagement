@@ -7,12 +7,12 @@ namespace webapi.Infrastructure.Database.Models {
         public string UniqueNumMask { get; set; } = String.Empty;
         [ForeignKey(nameof(Type))]
         public int TypeId { get; set; }
-        public virtual TrainComponentType Type { get; set; } = new TrainComponentType();
+        public virtual TrainComponentType? Type { get; set; }
         [NotMapped]
-        public bool IsRoot => Type.IsRoot;
+        public bool IsRoot => Type?.IsRoot ?? false;
         [NotMapped]
-        public bool CanAssignQuantity => Type.CanAssignQuantity;
+        public bool CanAssignQuantity => Type?.CanAssignQuantity ?? false;
         [NotMapped]
-        public string TypeName => Type.Name;
+        public string TypeName => Type?.Name ?? "";
     }
 }
