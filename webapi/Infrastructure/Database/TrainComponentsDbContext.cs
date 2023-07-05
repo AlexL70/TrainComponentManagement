@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using webapi.Infrastructure.Database.Configurations;
 using webapi.Infrastructure.Database.Models;
 using webapi.Infrastructure.Database.Seeding;
 
@@ -40,42 +41,22 @@ namespace webapi.Infrastructure.Database
 
         private void SetupEntities(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<TrainComponentType>()
-                .HasIndex(_ => _.Name).IsUnique();
-            modelBuilder.Entity<TrainComponentType>()
-                .Property(_ => _.Id).HasIdentityOptions(startValue: 501);
-            modelBuilder.Entity<TrainComponentTypeRelation>()
-                .HasKey(_ => new { _.ParentTypeId, _.ChildTypeId });
-            modelBuilder.Entity<TrainComponentTypeRelation>()
-                .HasOne(_ => _.ParentType)
-                .WithMany(_ => _.CanHaveChildren)
-                .HasForeignKey(_ => _.ParentTypeId)
-                .OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<TrainComponentTypeRelation>()
-                .HasOne(_ => _.ChildType)
-                .WithMany(_ => _.CanHaveParents)
-                .HasForeignKey(_ => _.ChildTypeId)
-                .OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<TrainComponentBrand>()
-                .HasIndex(_ => new { _.TypeId, _.Name }).IsUnique();
-            modelBuilder.Entity<TrainComponentType>()
-                .Property(_ => _.Id).HasIdentityOptions(startValue: 1001);
-            modelBuilder.Entity<TrainComponentBrand>()
-                .HasIndex(_ => _.TypeId);
-            modelBuilder.Entity<InventoryPart>()
-                .HasAlternateKey(_ => _.SerialNumber);
-            modelBuilder.Entity<TrainModel>()
-                .HasIndex(_ => _.Name).IsUnique();
-            modelBuilder.Entity<TrainModelElement>()
-                .HasIndex(_ => _.ModelId);
-            modelBuilder.Entity<TrainModelElement>()
-                .HasIndex(_ => _.ParentId);
-            modelBuilder.Entity<TrainModelElement>()
-                .HasIndex(_ => _.BrandId);
-            //  Inventory Element (physical part) cannot be used in train(s) more than once
-            //  i.e. there could not be more than one train component per inventory part
-            modelBuilder.Entity<TrainComponent>()
-                .HasIndex(_ => _.InventoryId).IsUnique();
+            new TrainComponentTypeConfiguration()
+                .Configure(modelBuilder.Entity<TrainComponentType>());
+            new TrainComponentTypeRelationConfiguration()
+                .Configure(modelBuilder.Entity<TrainComponentTypeRelation>());
+            new TrainComponentBrandConfiguration()
+                .Configure(modelBuilder.Entity<TrainComponentBrand>());
+            new InventoryPartConfiguration()
+                .Configure(modelBuilder.Entity<InventoryPart>());
+            new TrainModelConfiguration()
+                .Configure(modelBuilder.Entity<TrainModel>());
+            new TrainModelElementConfiguration()
+                .Configure(modelBuilder.Entity<TrainModelElement>());
+            new TrainConfiguration()
+                .Configure(modelBuilder.Entity<Train>());
+            new TrainComponentConfiguration()
+                .Configure(modelBuilder.Entity<TrainComponent>());
         }
 
         private void Seed(ModelBuilder modelBuilder) {

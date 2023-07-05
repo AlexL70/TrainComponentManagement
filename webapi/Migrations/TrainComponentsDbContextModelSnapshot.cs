@@ -57,14 +57,15 @@ namespace webapi.Migrations
                     b.Property<int>("ModelId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("RootElementId")
+                    b.Property<int>("RootComponentId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ModelId");
 
-                    b.HasIndex("RootElementId");
+                    b.HasIndex("RootComponentId")
+                        .IsUnique();
 
                     b.ToTable("Trains");
                 });
@@ -72,12 +73,6 @@ namespace webapi.Migrations
             modelBuilder.Entity("webapi.Infrastructure.Database.Models.TrainComponent", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityAlwaysColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("InventoryId")
                         .HasColumnType("integer");
 
                     b.Property<int>("ModelElementId")
@@ -90,9 +85,6 @@ namespace webapi.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("InventoryId")
-                        .IsUnique();
 
                     b.HasIndex("ModelElementId");
 
@@ -110,6 +102,7 @@ namespace webapi.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityAlwaysColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<int>("Id"), 1001L, null, null, null, null, null);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -526,7 +519,7 @@ namespace webapi.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityAlwaysColumn(b.Property<int>("Id"));
-                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<int>("Id"), 1001L, null, null, null, null, null);
+                    NpgsqlPropertyBuilderExtensions.HasIdentityOptions(b.Property<int>("Id"), 501L, null, null, null, null, null);
 
                     b.Property<bool>("CanAssignQuantity")
                         .HasColumnType("boolean");
@@ -1085,7 +1078,8 @@ namespace webapi.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.HasIndex("ParentElementId");
+                    b.HasIndex("ParentElementId")
+                        .IsUnique();
 
                     b.ToTable("TrainModels");
                 });
@@ -1124,7 +1118,7 @@ namespace webapi.Migrations
             modelBuilder.Entity("webapi.Infrastructure.Database.Models.InventoryPart", b =>
                 {
                     b.HasOne("webapi.Infrastructure.Database.Models.TrainComponentBrand", "Brand")
-                        .WithMany()
+                        .WithMany("Inventory")
                         .HasForeignKey("BrandId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1135,32 +1129,32 @@ namespace webapi.Migrations
             modelBuilder.Entity("webapi.Infrastructure.Database.Models.Train", b =>
                 {
                     b.HasOne("webapi.Infrastructure.Database.Models.TrainModel", "Model")
-                        .WithMany()
+                        .WithMany("Trains")
                         .HasForeignKey("ModelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("webapi.Infrastructure.Database.Models.TrainComponent", "RootElement")
-                        .WithMany()
-                        .HasForeignKey("RootElementId")
+                    b.HasOne("webapi.Infrastructure.Database.Models.TrainComponent", "RootComponent")
+                        .WithMany("TrainsWhereRootComponentIs")
+                        .HasForeignKey("RootComponentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Model");
 
-                    b.Navigation("RootElement");
+                    b.Navigation("RootComponent");
                 });
 
             modelBuilder.Entity("webapi.Infrastructure.Database.Models.TrainComponent", b =>
                 {
                     b.HasOne("webapi.Infrastructure.Database.Models.InventoryPart", "InventoryElement")
-                        .WithMany()
-                        .HasForeignKey("InventoryId")
+                        .WithOne("TrainComponent")
+                        .HasForeignKey("webapi.Infrastructure.Database.Models.TrainComponent", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("webapi.Infrastructure.Database.Models.TrainModelElement", "ModelElement")
-                        .WithMany()
+                        .WithMany("TrainComponents")
                         .HasForeignKey("ModelElementId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1170,7 +1164,7 @@ namespace webapi.Migrations
                         .HasForeignKey("ParentElementId");
 
                     b.HasOne("webapi.Infrastructure.Database.Models.Train", "Train")
-                        .WithMany()
+                        .WithMany("Components")
                         .HasForeignKey("TrainId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1217,7 +1211,7 @@ namespace webapi.Migrations
             modelBuilder.Entity("webapi.Infrastructure.Database.Models.TrainModel", b =>
                 {
                     b.HasOne("webapi.Infrastructure.Database.Models.TrainModelElement", "ParentElement")
-                        .WithMany()
+                        .WithMany("ModelsWhereParentIs")
                         .HasForeignKey("ParentElementId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1228,13 +1222,13 @@ namespace webapi.Migrations
             modelBuilder.Entity("webapi.Infrastructure.Database.Models.TrainModelElement", b =>
                 {
                     b.HasOne("webapi.Infrastructure.Database.Models.TrainComponentBrand", "Brand")
-                        .WithMany()
+                        .WithMany("ModelElements")
                         .HasForeignKey("BrandId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("webapi.Infrastructure.Database.Models.TrainModel", "Model")
-                        .WithMany()
+                        .WithMany("Elements")
                         .HasForeignKey("ModelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1250,9 +1244,28 @@ namespace webapi.Migrations
                     b.Navigation("Parent");
                 });
 
+            modelBuilder.Entity("webapi.Infrastructure.Database.Models.InventoryPart", b =>
+                {
+                    b.Navigation("TrainComponent");
+                });
+
+            modelBuilder.Entity("webapi.Infrastructure.Database.Models.Train", b =>
+                {
+                    b.Navigation("Components");
+                });
+
             modelBuilder.Entity("webapi.Infrastructure.Database.Models.TrainComponent", b =>
                 {
                     b.Navigation("Children");
+
+                    b.Navigation("TrainsWhereRootComponentIs");
+                });
+
+            modelBuilder.Entity("webapi.Infrastructure.Database.Models.TrainComponentBrand", b =>
+                {
+                    b.Navigation("Inventory");
+
+                    b.Navigation("ModelElements");
                 });
 
             modelBuilder.Entity("webapi.Infrastructure.Database.Models.TrainComponentType", b =>
@@ -1264,9 +1277,20 @@ namespace webapi.Migrations
                     b.Navigation("CanHaveParents");
                 });
 
+            modelBuilder.Entity("webapi.Infrastructure.Database.Models.TrainModel", b =>
+                {
+                    b.Navigation("Elements");
+
+                    b.Navigation("Trains");
+                });
+
             modelBuilder.Entity("webapi.Infrastructure.Database.Models.TrainModelElement", b =>
                 {
                     b.Navigation("Children");
+
+                    b.Navigation("ModelsWhereParentIs");
+
+                    b.Navigation("TrainComponents");
                 });
 #pragma warning restore 612, 618
         }

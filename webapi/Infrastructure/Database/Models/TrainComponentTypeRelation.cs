@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace webapi.Infrastructure.Database.Models
 { 
     public class TrainComponentTypeRelation

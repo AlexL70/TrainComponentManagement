@@ -18,7 +18,7 @@ namespace webapi.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:IdentitySequenceOptions", "'1001', '1', '', '', 'False', '1'")
+                        .Annotation("Npgsql:IdentitySequenceOptions", "'501', '1', '', '', 'False', '1'")
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     IsRoot = table.Column<bool>(type: "boolean", nullable: false),
@@ -34,6 +34,7 @@ namespace webapi.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:IdentitySequenceOptions", "'1001', '1', '', '', 'False', '1'")
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     UniqueNumMask = table.Column<string>(type: "text", nullable: false),
@@ -99,19 +100,17 @@ namespace webapi.Migrations
                 name: "TrainElements",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
+                    Id = table.Column<int>(type: "integer", nullable: false),
                     TrainId = table.Column<int>(type: "integer", nullable: false),
                     ParentElementId = table.Column<int>(type: "integer", nullable: true),
-                    ModelElementId = table.Column<int>(type: "integer", nullable: false),
-                    InventoryId = table.Column<int>(type: "integer", nullable: false)
+                    ModelElementId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TrainElements", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TrainElements_Inventory_InventoryId",
-                        column: x => x.InventoryId,
+                        name: "FK_TrainElements_Inventory_Id",
+                        column: x => x.Id,
                         principalTable: "Inventory",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -176,15 +175,15 @@ namespace webapi.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
-                    RootElementId = table.Column<int>(type: "integer", nullable: false),
+                    RootComponentId = table.Column<int>(type: "integer", nullable: false),
                     ModelId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Trains", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Trains_TrainElements_RootElementId",
-                        column: x => x.RootElementId,
+                        name: "FK_Trains_TrainElements_RootComponentId",
+                        column: x => x.RootComponentId,
                         principalTable: "TrainElements",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -387,12 +386,6 @@ namespace webapi.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_TrainElements_InventoryId",
-                table: "TrainElements",
-                column: "InventoryId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_TrainElements_ModelElementId",
                 table: "TrainElements",
                 column: "ModelElementId");
@@ -431,7 +424,8 @@ namespace webapi.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_TrainModels_ParentElementId",
                 table: "TrainModels",
-                column: "ParentElementId");
+                column: "ParentElementId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Trains_ModelId",
@@ -439,9 +433,10 @@ namespace webapi.Migrations
                 column: "ModelId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Trains_RootElementId",
+                name: "IX_Trains_RootComponentId",
                 table: "Trains",
-                column: "RootElementId");
+                column: "RootComponentId",
+                unique: true);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_TrainElements_TrainModelElements_ModelElementId",
@@ -480,7 +475,7 @@ namespace webapi.Migrations
                 table: "TrainModelElements");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_TrainElements_Inventory_InventoryId",
+                name: "FK_TrainElements_Inventory_Id",
                 table: "TrainElements");
 
             migrationBuilder.DropForeignKey(
