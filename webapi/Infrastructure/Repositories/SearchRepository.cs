@@ -7,7 +7,7 @@ namespace webapi.Infrastructure.Repositories
     public class SearchRepository<TEntity, TListDto> : ISearchRepository<TEntity, TListDto>
         where TEntity : class
     {
-        private DbContext _context;
+        protected DbContext _context;
 
         public SearchRepository(DbContext context)
         {

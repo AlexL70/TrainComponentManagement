@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using webapi.Domain.Repositories;
 using webapi.Infrastructure.Database;
+using webapi.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,9 +12,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Register custom services and repositories
+RegisterServices(builder);
+
 // Configure database context
 var connStr = builder.Configuration.GetConnectionString("PostgresConnectionString");
-builder.Services.AddDbContext<TrainComponentsDbContext>(options => { 
+builder.Services.AddDbContext<TrainComponentsDbContext>(options => {
     options.UseNpgsql(connStr);
 });
 
@@ -36,3 +41,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+void RegisterServices(WebApplicationBuilder builder) {
+    builder.Services.AddTransient<ITrainComponentTypesRepository, TrainComponentTypesRepository>();
+}
