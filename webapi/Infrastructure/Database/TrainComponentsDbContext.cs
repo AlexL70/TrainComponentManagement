@@ -7,7 +7,10 @@ namespace webapi.Infrastructure.Database
 {
     public class TrainComponentsDbContext : DbContext
     {
-        public TrainComponentsDbContext(DbContextOptions<TrainComponentsDbContext> options) : base(options) { }
+        public TrainComponentsDbContext(DbContextOptions<TrainComponentsDbContext> options) : base(options)
+        {
+            this.ChangeTracker.LazyLoadingEnabled = false;
+        }
 
         #region DbSets
         public DbSet<TrainComponentType>?  TrainComponentTypes { get; set; }
