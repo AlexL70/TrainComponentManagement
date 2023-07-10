@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using webapi.Domain.Models;
 using webapi.Domain.Repositories;
 using webapi.Infrastructure.Database.Models;
 
@@ -16,7 +17,7 @@ namespace webapi.Controllers
         }
 
         [HttpGet(Name = "GetTrainComponentTypes")] 
-        public IEnumerable<TrainComponentType> GetTypes()
+        public IEnumerable<TrainComponentTypeListDto> GetTypes()
         {
             return _repository.GetComponentTypes();
         }
