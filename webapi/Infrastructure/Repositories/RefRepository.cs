@@ -5,7 +5,6 @@ using webapi.Domain.Repositories.Abstract;
 namespace webapi.Infrastructure.Repositories
 {
     public class RefRepository<TKey, TListDto, TEntity> : IRefRepository<TKey, TListDto, TEntity>
-        where TKey : IComparable<TKey>
         where TEntity : class
     {
         private DbContext _context;

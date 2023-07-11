@@ -4,7 +4,6 @@ using webapi.Domain.Repositories.Abstract;
 namespace webapi.Infrastructure.Repositories
 {
     public class CrudRepository<TKey, TEntity> : ICrudRepository<TKey, TEntity>
-        where TKey : IComparable<TKey>
         where TEntity : class
     {
         private DbContext _context;
