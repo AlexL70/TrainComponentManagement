@@ -6,7 +6,7 @@ namespace webapi.Infrastructure.Repositories
     public class GetRepository<TKey, TEntity> : IGetRepository<TKey, TEntity>
         where TEntity : class
     {
-        private DbContext _context;
+        protected DbContext _context;
 
         public GetRepository(DbContext context)
         {

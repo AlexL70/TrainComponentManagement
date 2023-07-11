@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using webapi.Domain.Models;
 using webapi.Domain.Repositories;
 using webapi.Domain.Repositories.Abstract;
@@ -6,19 +7,15 @@ using webapi.Infrastructure.Database.Models;
 
 namespace webapi.Infrastructure.Repositories
 {
-    public class TrainComponentTypesRepository : 
+    public class TrainComponentTypesRepository :
         SearchRepository<TrainComponentType, TrainComponentTypeListDto>,
         ITrainComponentTypesRepository
     {
-        private GetRepository<int, TrainComponentType> _get;
-
         protected new TrainComponentsDbContext _context => (TrainComponentsDbContext)base._context;
-        public TrainComponentTypesRepository(TrainComponentsDbContext context) : base(context)
-        {
-            _get = new GetRepository<int, TrainComponentType>(context);
-        }
+        public TrainComponentTypesRepository(TrainComponentsDbContext context) : base(context) { }
 
-        public IEnumerable<TrainComponentTypeListDto> GetComponentTypes() {
+        public IEnumerable<TrainComponentTypeListDto> GetComponentTypes()
+        {
             return base.GetPageByConditions(null, new OrderByElement<TrainComponentType>[] {
                 new OrderByElement<TrainComponentType> { isAscending = true, exp = _ => _.Id }
             }, mapping: _ => new TrainComponentTypeListDto
@@ -26,13 +23,17 @@ namespace webapi.Infrastructure.Repositories
                 Id = _.Id,
                 Name = _.Name,
                 IsRoot = _.IsRoot,
-                CanAssignQuantity = _.CanAssignQuantity, 
+                CanAssignQuantity = _.CanAssignQuantity,
             });
         }
 
         public TrainComponentType? Get(int key)
         {
-            return _get.Get(key);
+            return _context.TrainComponentTypes
+                .Include(_ => _.BrandsAvailable)
+                .Include(_ => _.CanHaveChildren).ThenInclude(_ => _.ChildType)
+                .Include(_ => _.CanHaveParents).ThenInclude(_ => _.ParentType)
+                .Single(_ => _.Id == key);
         }
     }
 }
