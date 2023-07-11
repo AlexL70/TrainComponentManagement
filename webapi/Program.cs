@@ -1,6 +1,12 @@
 using Microsoft.EntityFrameworkCore;
+using webapi.Domain.Models;
 using webapi.Domain.Repositories;
+using webapi.Domain.Services;
+using webapi.Domain.Services.Abstract;
+using webapi.Domain.Services.Interfaces;
 using webapi.Infrastructure.Database;
+using webapi.Infrastructure.Database.Models;
+using webapi.Infrastructure.Mappings;
 using webapi.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,8 +18,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Register custom services and repositories
+// Register custom services, repositories and mappings
 RegisterServices(builder);
+RegisterRepos(builder);
+RegisterMappings(builder);
 
 // Configure database context
 var connStr = builder.Configuration.GetConnectionString("PostgresConnectionString");
@@ -43,5 +51,15 @@ app.MapControllers();
 app.Run();
 
 void RegisterServices(WebApplicationBuilder builder) {
-    builder.Services.AddTransient<ITrainComponentTypesRepository, TrainComponentTypesRepository>();
+    builder.Services.AddTransient<ITrainComponentTypeService, TrainComponentTypeService>();
+}
+
+void RegisterRepos(WebApplicationBuilder builder)
+{
+    builder.Services.AddScoped<ITrainComponentTypesRepository, TrainComponentTypesRepository>();
+}
+
+void RegisterMappings(WebApplicationBuilder builder)
+{
+    builder.Services.AddTransient<IEntityDtoMapping<TrainComponentType, TrainComponentTypeDto>, TrainComponentTypeMapping>();
 }

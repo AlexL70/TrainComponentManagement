@@ -1,25 +1,29 @@
 using Microsoft.AspNetCore.Mvc;
 using webapi.Domain.Models;
-using webapi.Domain.Repositories;
-using webapi.Infrastructure.Database.Models;
-
+using webapi.Domain.Services.Interfaces;
 namespace webapi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/component-types")]
     public class TrainComponentTypesController
     {
-        private ITrainComponentTypesRepository _repository;
+        private ITrainComponentTypeService _service;
 
-        public TrainComponentTypesController(ITrainComponentTypesRepository repository)
+        public TrainComponentTypesController(ITrainComponentTypeService service)
         {
-            _repository = repository;
+            _service = service;
         }
 
-        [HttpGet(Name = "GetTrainComponentTypes")] 
+        [HttpGet("get-list")] 
         public IEnumerable<TrainComponentTypeListDto> GetTypes()
         {
-            return _repository.GetComponentTypes();
+            return _service.GetComponentTypes();
+        }
+
+        [HttpGet("get-one/{Id}")]
+        public TrainComponentTypeDto GetType(int Id)
+        {
+            return _service.Get(Id) ?? new TrainComponentTypeDto();
         }
     }
 }

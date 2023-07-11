@@ -4,7 +4,7 @@ using webapi.Infrastructure.Database.Models;
 
 namespace webapi.Domain.Repositories
 {
-    public interface ITrainComponentTypesRepository : ISearchRepository<TrainComponentType, TrainComponentTypeListDto>
+    public interface ITrainComponentTypesRepository : IGetRepository<int, TrainComponentType>, ISearchRepository<TrainComponentType, TrainComponentTypeListDto>
     {
         public IEnumerable<TrainComponentTypeListDto> GetComponentTypes();
     }

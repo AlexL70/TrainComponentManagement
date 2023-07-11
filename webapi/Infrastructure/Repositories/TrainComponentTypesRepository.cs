@@ -10,10 +10,12 @@ namespace webapi.Infrastructure.Repositories
         SearchRepository<TrainComponentType, TrainComponentTypeListDto>,
         ITrainComponentTypesRepository
     {
+        private GetRepository<int, TrainComponentType> _get;
+
         protected new TrainComponentsDbContext _context => (TrainComponentsDbContext)base._context;
         public TrainComponentTypesRepository(TrainComponentsDbContext context) : base(context)
         {
-
+            _get = new GetRepository<int, TrainComponentType>(context);
         }
 
         public IEnumerable<TrainComponentTypeListDto> GetComponentTypes() {
@@ -26,6 +28,11 @@ namespace webapi.Infrastructure.Repositories
                 IsRoot = _.IsRoot,
                 CanAssignQuantity = _.CanAssignQuantity, 
             });
+        }
+
+        public TrainComponentType? Get(int key)
+        {
+            return _get.Get(key);
         }
     }
 }
